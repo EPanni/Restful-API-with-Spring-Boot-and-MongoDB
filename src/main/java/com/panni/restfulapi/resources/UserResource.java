@@ -1,5 +1,6 @@
 package com.panni.restfulapi.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.panni.restfulapi.domain.User;
 import com.panni.restfulapi.dto.UserDTO;
@@ -33,9 +37,20 @@ public class UserResource {
     @GetMapping(value ="/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable String id){
    
-        User user = service.FindById(id);
+        User user = service.findById(id);
         UserDTO userDTO = new UserDTO(user);
         return ResponseEntity.ok().body(userDTO);
 
     }
+    
+    @PostMapping
+    public ResponseEntity<User> insertUser(@RequestBody UserDTO userDTO){
+   
+        User user = service.fromDTO(userDTO);
+        user = service.insert(user);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+
+    }
+    
 }

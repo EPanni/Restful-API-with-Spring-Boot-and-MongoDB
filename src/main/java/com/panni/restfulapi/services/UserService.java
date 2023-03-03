@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.panni.restfulapi.domain.User;
+import com.panni.restfulapi.dto.UserDTO;
 import com.panni.restfulapi.repositories.UserRepository;
 import com.panni.restfulapi.services.exception.ObjectNotFoundException;
 
@@ -20,7 +21,7 @@ public class UserService {
         return repo.findAll();
     }
 
-    public User FindById(String id){
+    public User findById(String id){
 
         Optional<User> user = repo.findById(id);
         if (user.isEmpty()){
@@ -28,5 +29,16 @@ public class UserService {
         }
         return user.get();
     }
+
+    public User insert (User user){
+
+        return repo.insert(user);
+    }
     
+
+    public User fromDTO(UserDTO userDTO){
+
+        return new User(userDTO.getId(), userDTO.getName(), userDTO.getEmail());
+
+    }
 }
