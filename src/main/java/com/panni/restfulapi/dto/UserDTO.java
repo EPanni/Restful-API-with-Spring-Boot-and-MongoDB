@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.panni.restfulapi.domain.User;
 
-public class UserDTO implements Serializable {
+public class  UserDTO implements Serializable {
     
     private String id;
     private String name;
@@ -18,7 +18,6 @@ public class UserDTO implements Serializable {
         id = obj.getId();
         name = obj.getName();
         email = obj.getEmail();
-        
     }
 
     public String getId() {
