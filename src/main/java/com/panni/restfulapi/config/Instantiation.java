@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import com.panni.restfulapi.dto.AuthorDTO;
 import com.panni.restfulapi.domain.Post;
 import com.panni.restfulapi.domain.User;
 import com.panni.restfulapi.repositories.PostRepository;
@@ -35,10 +36,12 @@ public class Instantiation implements CommandLineRunner{
         User alex = new User(null, "Alex Green", "alex@gmail.com");
         User bob = new User(null, "Bob Grey", "bob@gmail.com");
 
-        Post post1 = new Post(null,sdf.parse("21/03/2018"),"Let's go", "I am travelling",maria);
-        Post post2 = new Post(null,sdf.parse("28/03/2022"),"Good morning", "It's a great day to be happy",maria);
-        
         userRepository.saveAll(Arrays.asList(maria,alex,bob));
+
+        Post post1 = new Post(null,sdf.parse("21/03/2018"),"Let's go", "I am travelling",new AuthorDTO(maria));
+        Post post2 = new Post(null,sdf.parse("28/03/2022"),"Good morning", "It's a great day to be happy",new AuthorDTO(maria));
+        
+        
         postRepository.saveAll(Arrays.asList(post1, post2));
     }
     
