@@ -1,8 +1,11 @@
 package com.panni.restfulapi.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -10,16 +13,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User implements Serializable{
     
     @Id
-    private String _id;
+    private String id;
     private String name;
     private String email;
+    @DBRef(lazy = true)
+    private List<Post> posts = new ArrayList<>();
 
     public User(){
 
     }
 
-    public User(String _id, String name, String email) {
-        this._id = _id;
+    public User(String id, String name, String email) {
+        this.id = id;
         this.name = name;
         this.email = email;
     }
@@ -43,18 +48,26 @@ public class User implements Serializable{
     }
 
     public String getId() {
-        return _id;
+        return id;
     }
 
-    public void setId(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -67,10 +80,10 @@ public class User implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         User other = (User) obj;
-        if (_id == null) {
-            if (other._id != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!_id.equals(other._id))
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }
